@@ -18,15 +18,36 @@ namespace APIManagmentConsole.ViewModel
     {
         public List<ApplicationMenuItem> Menu { get; set; }
         public RelayCommand LogoutCommand { get; set; }
-
+ 
         public LoginViewModel LoginVM { get; set; }
+
+        public SubscriptionsViewModel SubscriptionsVM { get; set; }
+
+        private bool isLoaded;
+        public bool IsLoaded
+        {
+            get
+            {
+                return isLoaded;
+            }
+            set
+            {
+                isLoaded = value;
+                RaisePropertyChanged("IsLoaded");
+                if (isLoaded)
+                {
+                    LoadSubscriptions();
+                }
+            }
+        }
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(ILoginService loginService)
+        public MainViewModel(ILoginService loginService, ISubscriptionsService subscriptionService)
         {
-            LoginVM = new LoginViewModel(loginService);
+            LoginVM = new LoginViewModel(loginService, this);
+            SubscriptionsVM = new SubscriptionsViewModel(subscriptionService);
 
             LogoutCommand = new RelayCommand(DoLogout);
 
@@ -44,10 +65,14 @@ namespace APIManagmentConsole.ViewModel
             };
         }
 
+        public async void LoadSubscriptions()
+        {
+            await SubscriptionsVM.GetSubscriptions();
+        }
         private void DoLogout()
         {
             App.GetApplicationContext().SetSecurityContext(null);
-
+            LoginVM.IsAuthenticated = false;
         }
     }
 }

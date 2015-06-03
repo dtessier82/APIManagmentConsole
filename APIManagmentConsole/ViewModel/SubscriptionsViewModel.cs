@@ -6,6 +6,11 @@ using System.Threading.Tasks;
 using APIManagmentConsole.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using System.Collections.ObjectModel;
+using APIManagmentConsole.Models;
+using System.Windows.Threading;
+using System.Windows.Data;
+using System.Windows;
 
 namespace APIManagmentConsole.ViewModel
 {
@@ -14,59 +19,50 @@ namespace APIManagmentConsole.ViewModel
 
         private readonly ISubscriptionsService subscriptionsService;
 
-        /// <summary>
-        /// The <see cref="WelcomeTitle" /> property's name.
-        /// </summary>
-        public const string WelcomeTitlePropertyName = "WelcomeTitle";
-
-        private string _welcomeTitle = string.Empty;
-
-        /// <summary>
-        /// Gets the WelcomeTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string WelcomeTitle
+        private Subscription selectedSubscription;
+        public Subscription SelectedSubscription
         {
-            get
-            {
-                return _welcomeTitle;
-            }
-
+            get { return selectedSubscription; }
             set
             {
-                if (_welcomeTitle == value)
-                {
+                if(value == selectedSubscription)
                     return;
-                }
 
-                _welcomeTitle = value;
-                RaisePropertyChanged(WelcomeTitlePropertyName);
+                selectedSubscription = value;
+                RaisePropertyChanged("SelectedSubscription");
+                GetSubscription();
             }
         }
 
-        private RelayCommand refreshCommand;
+        public ObservableCollection<Subscription> Subscriptions { get; set; }
+
+        private object subscriptionsLock = new object();
 
         public SubscriptionsViewModel(ISubscriptionsService subscriptionsService)
         {
             this.subscriptionsService = subscriptionsService;
+            Subscriptions = new ObservableCollection<Subscription>();
+           
+            BindingOperations.EnableCollectionSynchronization(Subscriptions, subscriptionsLock);
         }
 
-        public RelayCommand RefreshCommand
+        public async Task GetSubscriptions()
         {
-            get
-            {
-                return refreshCommand ?? (refreshCommand = new RelayCommand(async () =>
-                {
-                    var list =
+            var list =
                         await
                             subscriptionsService.GetSubscriptions(
                                 App.GetApplicationContext().GetSecurityContext().GetTenantId(),
                                 App.GetApplicationContext().GetSecurityContext().GetAccessToken());
 
-                   
-
-                }));
+            foreach (var item in list)
+            {
+                Subscriptions.Add(item);
             }
+        }
+
+        private void GetSubscription()
+        {
+            MessageBox.Show(SelectedSubscription.SubscriptionId);
         }
     }
 }

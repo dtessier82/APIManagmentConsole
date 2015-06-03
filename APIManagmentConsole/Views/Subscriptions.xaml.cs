@@ -10,14 +10,15 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace APIManagmentConsole
+namespace APIManagmentConsole.Views
 {
     /// <summary>
     /// Interaction logic for Subscriptions.xaml
     /// </summary>
-    public partial class Subscriptions : Window
+    public partial class Subscriptions : UserControl
     {
         public Subscriptions()
         {

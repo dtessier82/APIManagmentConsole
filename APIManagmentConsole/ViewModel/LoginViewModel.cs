@@ -13,17 +13,19 @@ using APIManagmentConsole.Model;
 
 namespace APIManagmentConsole
 {
-    public class LoginViewModel : ViewModelBase
+    public class LoginViewModel : ViewModelBase, IDisposable
     {
         private readonly ILoginService loginService;
-        private UserLogin userLogin;
+        private string userName;
+        private SecureString password;
         private RelayCommand loginCommand;
+        private readonly MainViewModel parent;
 
-
-        public LoginViewModel(ILoginService loginService)
+        public LoginViewModel(ILoginService loginService, MainViewModel parent)
         {
             this.loginService = loginService;
-            userLogin = new UserLogin();
+            password = new SecureString();
+            this.parent = parent;
         }
 
         private bool _IsAuthenticated;
@@ -48,31 +50,42 @@ namespace APIManagmentConsole
                 return !IsAuthenticated;
             }
         }
-    
-        /// <summary>
-        /// The <see cref="UserLogin"/> property name;
-        /// </summary>
-        public const string UserLoginPropertyName = "UserLogin";
-        /// <summary>
-        /// Gets the WelcomeTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public UserLogin UserLogin
+
+        public SecureString Password
         {
             get
             {
-                return userLogin;
+                return password;
             }
 
             set
             {
-                if (userLogin == value)
+                if (password == value)
                 {
                     return;
                 }
 
-                userLogin = value;
-                RaisePropertyChanged(UserLoginPropertyName);
+                password = value;
+                RaisePropertyChanged("Password");
+            }
+        }
+   
+        public string Username
+        {
+            get
+            {
+                return userName;
+            }
+
+            set
+            {
+                if (userName == value)
+                {
+                    return;
+                }
+
+                userName = value;
+                RaisePropertyChanged("Username");
             }
         }
 
@@ -83,8 +96,39 @@ namespace APIManagmentConsole
             {
                 return loginCommand ?? (loginCommand = new RelayCommand(async () =>
                 {
-                    IsAuthenticated = await loginService.Login(userLogin.Username, userLogin.Password);
+                    try
+                    {
+                        IsAuthenticated = await loginService.Login(Username, Password);
+                        parent.IsLoaded = IsAuthenticated;
+                        Cleanup();
+                    }
+                    catch (Exception e)
+                    {
+                       MessageBox.Show(e.Message);
+                    }
+                  
                 }));
+            }
+        }
+
+        public override void Cleanup()
+        {
+            Username = string.Empty;
+            Password.Clear();
+            base.Cleanup();
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                password.Dispose();
+                password = null;
             }
         }
     }

@@ -22,6 +22,7 @@ namespace APIManagmentConsole.Services.Implmentation
             {
                 var json = JsonConvert.SerializeObject(list.Subscriptions);
                 var res  = JsonConvert.DeserializeObject<List<Subscription>>(json);
+                return res;
             }
 
             return null;

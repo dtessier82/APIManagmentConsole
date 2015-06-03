@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:pass="clr-namespace:APIManagmentConsole.UserControls"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="400" d:DesignWidth="600">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"/>
     </UserControl.Resources>
@@ -23,9 +23,9 @@
             </Grid.RowDefinitions>
             <TextBlock Text="Log in" Grid.ColumnSpan="2" FontWeight="Bold" HorizontalAlignment="Center" Margin="5" FontSize="20"/>
             <TextBlock Text="Name" Grid.Row="1" Margin="3"/>
-            <TextBox x:Name="txtName" Text="{Binding LoginVM.UserLogin.UserName}" Grid.Row="1" Grid.Column="1" Margin="3" MinWidth="100" HorizontalAlignment="Left"/>
+            <TextBox x:Name="txtName" Text="{Binding LoginVM.Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Row="1" Grid.Column="1" Margin="3" MinWidth="200" HorizontalAlignment="Left"/>
             <TextBlock Text="Password" Grid.Row="2" Margin="3"/>
-            <pass:BindablePasswordBox x:Name="txtPassword" SecurePassword="{Binding LoginVM.UserLogin.Password}" Grid.Column="1" Grid.Row="2" Margin="3" MinWidth="100" HorizontalAlignment="Left"/>
+            <pass:BindablePasswordBox x:Name="txtPassword" SecurePassword="{Binding LoginVM.Password,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Grid.Row="2" Margin="3" MinWidth="200" HorizontalAlignment="Left"/>
             <Button Command="{Binding LoginVM.LoginCommand}" Content="Log in" Grid.Row="3" Grid.Column="1" Margin="3"/>
         </Grid>
     </Grid>

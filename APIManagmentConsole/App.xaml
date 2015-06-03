@@ -12,7 +12,7 @@
         <vm:ViewModelLocator x:Key="Locator"
                              d:IsDataSource="True" />
 
-        <Style TargetType="TextBox">
+        <!--<Style TargetType="TextBox">
             <Style.Triggers>
                 <Trigger Property="Validation.HasError" Value="True">
                     <Setter Property="Background" Value="Pink"/>
@@ -21,7 +21,7 @@
                         Path=(Validation.Errors)[0].ErrorContent}"/>
                 </Trigger>
             </Style.Triggers>
-        </Style>
+        </Style>-->
     </Application.Resources>
     
 </Application>
