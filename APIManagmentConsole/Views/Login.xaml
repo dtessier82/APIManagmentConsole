@@ -1,0 +1,32 @@
+﻿<UserControl x:Class="APIManagmentConsole.Views.Login"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:pass="clr-namespace:APIManagmentConsole.UserControls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"/>
+    </UserControl.Resources>
+    <Grid x:Name="LoginLayer" Background="#B0000000" Visibility="{Binding LoginVM.IsNotAuthenticated, Converter={StaticResource BoolVisibilityConverter}}">
+        <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Background="LightBlue">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Log in" Grid.ColumnSpan="2" FontWeight="Bold" HorizontalAlignment="Center" Margin="5" FontSize="20"/>
+            <TextBlock Text="Name" Grid.Row="1" Margin="3"/>
+            <TextBox x:Name="txtName" Text="{Binding LoginVM.UserLogin.UserName}" Grid.Row="1" Grid.Column="1" Margin="3" MinWidth="100" HorizontalAlignment="Left"/>
+            <TextBlock Text="Password" Grid.Row="2" Margin="3"/>
+            <pass:BindablePasswordBox x:Name="txtPassword" SecurePassword="{Binding LoginVM.UserLogin.Password}" Grid.Column="1" Grid.Row="2" Margin="3" MinWidth="100" HorizontalAlignment="Left"/>
+            <Button Command="{Binding LoginVM.LoginCommand}" Content="Log in" Grid.Row="3" Grid.Column="1" Margin="3"/>
+        </Grid>
+    </Grid>
+</UserControl>

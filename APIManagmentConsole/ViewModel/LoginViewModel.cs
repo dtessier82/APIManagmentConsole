@@ -9,90 +9,81 @@ using APIManagmentConsole.Services;
 using APIManagmentConsole.ViewModel;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using APIManagmentConsole.Model;
 
 namespace APIManagmentConsole
 {
     public class LoginViewModel : ViewModelBase
     {
         private readonly ILoginService loginService;
-        private string username = string.Empty;
-        private SecureString password;
+        private UserLogin userLogin;
         private RelayCommand loginCommand;
+
 
         public LoginViewModel(ILoginService loginService)
         {
             this.loginService = loginService;
+            userLogin = new UserLogin();
+        }
+
+        private bool _IsAuthenticated;
+        public bool IsAuthenticated
+        {
+            get { return _IsAuthenticated; }
+            set
+            {
+                if (value != _IsAuthenticated)
+                {
+                    _IsAuthenticated = value;
+                    RaisePropertyChanged("IsAuthenticated");
+                    RaisePropertyChanged("IsNotAuthenticated");
+                }
+            }
+        }
+
+        public bool IsNotAuthenticated
+        {
+            get
+            {
+                return !IsAuthenticated;
+            }
         }
     
         /// <summary>
-        /// The <see cref="Username"/> property name;
+        /// The <see cref="UserLogin"/> property name;
         /// </summary>
-        public const string UsernamePropertyName = "Username";
+        public const string UserLoginPropertyName = "UserLogin";
         /// <summary>
         /// Gets the WelcomeTitle property.
         /// Changes to that property's value raise the PropertyChanged event. 
         /// </summary>
-        public string Username
+        public UserLogin UserLogin
         {
             get
             {
-                return username;
+                return userLogin;
             }
 
             set
             {
-                if (username == value)
+                if (userLogin == value)
                 {
                     return;
                 }
 
-                username = value;
-                RaisePropertyChanged(UsernamePropertyName);
+                userLogin = value;
+                RaisePropertyChanged(UserLoginPropertyName);
             }
         }
 
-        /// <summary>
-        /// The <see cref="Password"/> property name;
-        /// </summary>
-        public const string PasswordPropertyName = "Password";
-        /// <summary>
-        /// Gets the WelcomeTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public SecureString Password
-        {
-            get
-            {
-                return password;
-            }
-
-            set
-            {
-                if (password != value)
-                {
-                    password = value;
-                    RaisePropertyChanged(PasswordPropertyName);
-                }
-            }
-        }
-
+    
         public RelayCommand LoginCommand
         {
             get
             {
                 return loginCommand ?? (loginCommand = new RelayCommand(async () =>
                 {
-                    var success = await loginService.Login(Username, Password);
-
-                    if (success)
-                    {
-                        
-                        var subs = new Subscriptions();
-                        App.Current.MainWindow = subs;
-                        subs.Show();
-                    }
-
-
+                    IsAuthenticated = await loginService.Login(userLogin.Username, userLogin.Password);
                 }));
             }
         }

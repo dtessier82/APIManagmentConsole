@@ -1,4 +1,4 @@
-﻿<Window x:Class="APIManagmentConsole.Login"
+﻿<Window x:Class="APIManagmentConsole.Views.Login1"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -21,11 +21,11 @@
                Grid.Row="1" />
         <TextBox Grid.Column="1"
                  TextWrapping="Wrap"
-                 Text="{Binding Username}" />
+                 Text="{Binding LoginVM.UserLogin.Username,  UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
         <uc:BindablePasswordBox Grid.Row="1"
-                     Grid.Column="1" SecurePassword="{Binding Password, Mode=TwoWay}" />
+                     Grid.Column="1" SecurePassword="{Binding LoginVM.UserLogin.Password,  UpdateSourceTrigger=LostFocus, ValidatesOnDataErrors=True, NotifyOnValidationError=True}" />
         <Button Content="Login"
-                Command="{Binding LoginCommand}"
+                Command="{Binding LoginVM.LoginCommand}"
                 Grid.Column="1"
                 HorizontalAlignment="Left"
                 Margin="10,9.667,0,0"

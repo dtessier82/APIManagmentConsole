@@ -1,5 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
 using APIManagmentConsole.Model;
+using GalaSoft.MvvmLight.CommandWpf;
+using System.Windows.Controls;
+using System.Collections.Generic;
+using APIManagmentConsole.Model;
+using APIManagmentConsole.Services;
 
 namespace APIManagmentConsole.ViewModel
 {
@@ -11,62 +16,38 @@ namespace APIManagmentConsole.ViewModel
     /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private readonly IDataService _dataService;
+        public List<ApplicationMenuItem> Menu { get; set; }
+        public RelayCommand LogoutCommand { get; set; }
 
-        /// <summary>
-        /// The <see cref="WelcomeTitle" /> property's name.
-        /// </summary>
-        public const string WelcomeTitlePropertyName = "WelcomeTitle";
-
-        private string _welcomeTitle = string.Empty;
-
-        /// <summary>
-        /// Gets the WelcomeTitle property.
-        /// Changes to that property's value raise the PropertyChanged event. 
-        /// </summary>
-        public string WelcomeTitle
-        {
-            get
-            {
-                return _welcomeTitle;
-            }
-
-            set
-            {
-                if (_welcomeTitle == value)
-                {
-                    return;
-                }
-
-                _welcomeTitle = value;
-                RaisePropertyChanged(WelcomeTitlePropertyName);
-            }
-        }
+        public LoginViewModel LoginVM { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(IDataService dataService)
+        public MainViewModel(ILoginService loginService)
         {
-            _dataService = dataService;
-            _dataService.GetData(
-                (item, error) =>
-                {
-                    if (error != null)
-                    {
-                        // Report error here
-                        return;
-                    }
+            LoginVM = new LoginViewModel(loginService);
 
-                    WelcomeTitle = item.Title;
-                });
+            LogoutCommand = new RelayCommand(DoLogout);
+
+            Menu = new List<ApplicationMenuItem>
+            {
+                new ApplicationMenuItem { Header = "Log off", Command = LogoutCommand },
+                new ApplicationMenuItem { Header = "Other stuff", 
+                    Children = new List<ApplicationMenuItem>
+                    {
+                        new ApplicationMenuItem { Header = "Load new control", Command = null },
+                        new ApplicationMenuItem { Header = "Load control v2", Command = null },
+                        new ApplicationMenuItem { Header = "Open new window", Command = null },
+                    },
+                },
+            };
         }
 
-        ////public override void Cleanup()
-        ////{
-        ////    // Clean up if needed
+        private void DoLogout()
+        {
+            App.GetApplicationContext().SetSecurityContext(null);
 
-        ////    base.Cleanup();
-        ////}
+        }
     }
 }

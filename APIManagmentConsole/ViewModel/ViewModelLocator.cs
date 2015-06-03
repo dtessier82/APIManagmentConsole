@@ -30,7 +30,6 @@ namespace APIManagmentConsole.ViewModel
         static ViewModelLocator()
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
-            SimpleIoc.Default.Register<IDataService, DataService>();
             SimpleIoc.Default.Register<ILoginService, LoginService>();
             SimpleIoc.Default.Register<ISubscriptionsService, SubscriptionsService>();
 
