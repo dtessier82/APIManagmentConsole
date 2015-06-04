@@ -7,9 +7,8 @@ using APIManagmentConsole.Models;
 
 namespace APIManagmentConsole.Services
 {
-    public interface ISubscriptionsService
+    public interface ISubscriptionService
     {
         Task<List<Subscription>> GetSubscriptions(string tenantId, string accessToken);
-
     }
 }

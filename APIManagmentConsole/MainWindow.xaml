@@ -34,7 +34,7 @@
                 <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="26*"/>
             </Grid.ColumnDefinitions>
-            <view:Subscriptions Grid.Column="0" />
+            <view:SidePanel Grid.Column="0" />
         </Grid>
         <view:Login Grid.Row="1" />
     </Grid>

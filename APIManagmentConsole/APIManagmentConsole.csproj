@@ -171,8 +171,10 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Services\ILoginService.cs" />
     <Compile Include="Services\Implmentation\LoginService.cs" />
-    <Compile Include="Services\Implmentation\SubscriptionsService.cs" />
-    <Compile Include="Services\ISubscriptionsService.cs" />
+    <Compile Include="Services\Implmentation\ResourceGroupService.cs" />
+    <Compile Include="Services\Implmentation\SubscriptionService.cs" />
+    <Compile Include="Services\IResourceGroupService.cs" />
+    <Compile Include="Services\ISubscriptionService.cs" />
     <Compile Include="UserControls\BindablePasswordBox.xaml.cs">
       <DependentUpon>BindablePasswordBox.xaml</DependentUpon>
     </Compile>
@@ -181,10 +183,10 @@
     </Compile>
     <Compile Include="ViewModel\LoginViewModel.cs" />
     <Compile Include="ViewModel\MainViewModel.cs" />
-    <Compile Include="ViewModel\SubscriptionsViewModel.cs" />
+    <Compile Include="ViewModel\SideSelectionViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
-    <Compile Include="Views\Subscriptions.xaml.cs">
-      <DependentUpon>Subscriptions.xaml</DependentUpon>
+    <Compile Include="Views\SidePanel.xaml.cs">
+      <DependentUpon>SidePanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -206,7 +208,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Subscriptions.xaml">
+    <Page Include="Views\SidePanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

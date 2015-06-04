@@ -31,11 +31,12 @@ namespace APIManagmentConsole.ViewModel
         {
             ServiceLocator.SetLocatorProvider(() => SimpleIoc.Default);
             SimpleIoc.Default.Register<ILoginService, LoginService>();
-            SimpleIoc.Default.Register<ISubscriptionsService, SubscriptionsService>();
+            SimpleIoc.Default.Register<ISubscriptionService, SubscriptionService>();
+            SimpleIoc.Default.Register<IResourceGroupService, ResourceGroupService>();
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();
-            SimpleIoc.Default.Register<SubscriptionsViewModel>();
+            SimpleIoc.Default.Register<SideSelectionViewModel>();
         }
 
         /// <summary>
@@ -49,22 +50,6 @@ namespace APIManagmentConsole.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
-            }
-        }
-
-        public LoginViewModel Login
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<LoginViewModel>();
-            }
-        }
-
-        public SubscriptionsViewModel Subscriptions
-        {
-            get
-            {
-                return ServiceLocator.Current.GetInstance<SubscriptionsViewModel>();
             }
         }
 

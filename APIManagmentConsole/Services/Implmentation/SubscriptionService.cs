@@ -8,14 +8,15 @@ using APIManagmentConsole.Models;
 using Microsoft.Azure;
 using Microsoft.Azure.Subscriptions;
 using Newtonsoft.Json;
+using Microsoft.Azure.Management.Resources;
+using Microsoft.Azure.Management.ApiManagement;
 
 namespace APIManagmentConsole.Services.Implmentation
 {
-    public class SubscriptionsService : ISubscriptionsService
+    public class SubscriptionService : ISubscriptionService
     {
         public async Task<List<Subscription>> GetSubscriptions(string tenantId, string token)
         {
-            
             var subClient = new SubscriptionClient(new TokenCloudCredentials(tenantId, token));
             var list = await subClient.Subscriptions.ListAsync();
             if (list.StatusCode == System.Net.HttpStatusCode.OK)
@@ -24,9 +25,7 @@ namespace APIManagmentConsole.Services.Implmentation
                 var res  = JsonConvert.DeserializeObject<List<Subscription>>(json);
                 return res;
             }
-
             return null;
-
         }
     }
 }

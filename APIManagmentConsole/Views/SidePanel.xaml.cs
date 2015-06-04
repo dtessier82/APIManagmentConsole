@@ -18,9 +18,9 @@ namespace APIManagmentConsole.Views
     /// <summary>
     /// Interaction logic for Subscriptions.xaml
     /// </summary>
-    public partial class Subscriptions : UserControl
+    public partial class SidePanel : UserControl
     {
-        public Subscriptions()
+        public SidePanel()
         {
             InitializeComponent();
         }

@@ -21,7 +21,8 @@ namespace APIManagmentConsole.ViewModel
  
         public LoginViewModel LoginVM { get; set; }
 
-        public SubscriptionsViewModel SubscriptionsVM { get; set; }
+        public SideSelectionViewModel SidePanelVM { get; set; }
+
 
         private bool isLoaded;
         public bool IsLoaded
@@ -36,7 +37,7 @@ namespace APIManagmentConsole.ViewModel
                 RaisePropertyChanged("IsLoaded");
                 if (isLoaded)
                 {
-                    LoadSubscriptions();
+                    Load();
                 }
             }
         }
@@ -44,10 +45,11 @@ namespace APIManagmentConsole.ViewModel
         /// <summary>
         /// Initializes a new instance of the MainViewModel class.
         /// </summary>
-        public MainViewModel(ILoginService loginService, ISubscriptionsService subscriptionService)
+        public MainViewModel(ILoginService loginService,
+            ISubscriptionService subscriptionService, IResourceGroupService resourceGroupService)
         {
             LoginVM = new LoginViewModel(loginService, this);
-            SubscriptionsVM = new SubscriptionsViewModel(subscriptionService);
+            SidePanelVM = new SideSelectionViewModel(subscriptionService, resourceGroupService);
 
             LogoutCommand = new RelayCommand(DoLogout);
 
@@ -65,9 +67,10 @@ namespace APIManagmentConsole.ViewModel
             };
         }
 
-        public async void LoadSubscriptions()
+        public async void Load()
         {
-            await SubscriptionsVM.GetSubscriptions();
+            await SidePanelVM.GetSubscriptions();
+            //await SidePanelVM.GetResources();
         }
         private void DoLogout()
         {

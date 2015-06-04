@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="APIManagmentConsole.Views.SidePanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" 
+             d:DesignHeight="550" d:DesignWidth="150">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <StackPanel Background="WhiteSmoke">
+           <Grid Margin="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="SUSCRIPTIONS" FontWeight="ExtraBold" />
+            <ComboBox Grid.Row="1" BorderBrush="DarkRed" BorderThickness="3" FontWeight="Black"
+                 ItemsSource="{Binding SidePanelVM.Subscriptions}" DisplayMemberPath="DisplayName"
+                 SelectedItem="{Binding SidePanelVM.SelectedSubscription}">
+
+            </ComboBox>
+        </Grid>
+        <Separator />
+        <Grid Margin="5" Visibility="{Binding SidePanelVM.IsSubscriptionSelected, Converter={StaticResource BoolVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="RESCOURCE GROUPS" FontWeight="ExtraBold" />
+            <ComboBox Grid.Row="1" BorderBrush="DarkRed" BorderThickness="3" FontWeight="Black"
+                 ItemsSource="{Binding SidePanelVM.ResourceGroups}" DisplayMemberPath="Name"
+                 SelectedItem="{Binding SidePanelVM.SelectedResourceGroup}">
+
+            </ComboBox>
+        </Grid>
+
+    </StackPanel>
+     
+        
+        
+</UserControl>
