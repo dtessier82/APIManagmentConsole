@@ -2,7 +2,6 @@
 using System.Windows;
 using APIManagmentConsole.Context;
 using GalaSoft.MvvmLight.Threading;
-using APIManagmentConsole.Views;
 
 namespace APIManagmentConsole
 {

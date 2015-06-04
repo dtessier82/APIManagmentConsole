@@ -147,6 +147,12 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\Extensions\ApiDefinitionExtensions.cs" />
+    <Compile Include="Models\Extensions\ProductExtensions.cs" />
+    <Compile Include="Models\Extensions\ResourceGroupExtensions.cs" />
+    <Compile Include="Models\Extensions\SubscriptionExtensions.cs" />
+    <Compile Include="Models\Resource.cs" />
+    <Compile Include="Models\ResourceGroup.cs" />
     <Compile Include="Model\ApplicationMenuItem.cs" />
     <Compile Include="Models\ApiDefinition.cs" />
     <Compile Include="Models\ApiDefinitionTemplate.cs" />
@@ -169,7 +175,11 @@
     <Compile Include="Models\ProductTemplate.cs" />
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Services\IApiService.cs" />
+    <Compile Include="Services\Implmentation\ApiService.cs" />
+    <Compile Include="Services\IProductService.cs" />
     <Compile Include="Services\ILoginService.cs" />
+    <Compile Include="Services\Implmentation\ProductService.cs" />
     <Compile Include="Services\Implmentation\LoginService.cs" />
     <Compile Include="Services\Implmentation\ResourceGroupService.cs" />
     <Compile Include="Services\Implmentation\SubscriptionService.cs" />
@@ -178,6 +188,8 @@
     <Compile Include="UserControls\BindablePasswordBox.xaml.cs">
       <DependentUpon>BindablePasswordBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\Extensions\ViewModelExtensions.cs" />
+    <Compile Include="ViewModel\ProductViewModel.cs" />
     <Compile Include="Views\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -185,6 +197,9 @@
     <Compile Include="ViewModel\MainViewModel.cs" />
     <Compile Include="ViewModel\SideSelectionViewModel.cs" />
     <Compile Include="ViewModel\ViewModelLocator.cs" />
+    <Compile Include="Views\Product.xaml.cs">
+      <DependentUpon>Product.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SidePanel.xaml.cs">
       <DependentUpon>SidePanel.xaml</DependentUpon>
     </Compile>
@@ -205,6 +220,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Product.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

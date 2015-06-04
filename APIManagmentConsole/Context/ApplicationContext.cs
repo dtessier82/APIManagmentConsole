@@ -6,8 +6,10 @@
         private string clientId;
         private string apiUrl;
         private string loginUrl;
-        public string SubscriptionId { get; private set; }
-        //public string ResourceGroup { get; private set; }
+        private string subscriptionId;
+        private string resourceGroup;
+        private string productId;
+        private string serviceName;
 
         public ApplicationContext(string clientId, string loginUrl, string apiUrl)
         {
@@ -15,6 +17,27 @@
             this.clientId = clientId;
             this.loginUrl = loginUrl;
         }
+
+        public void SetSubscriptionId(string subscriptionId)
+        {
+            this.subscriptionId = subscriptionId;
+        }
+
+        public string GetSubscriptionId()
+        {
+            return subscriptionId;
+        }
+
+        public void SetResourceGroup(string resourceGroup)
+        {
+            this.resourceGroup = resourceGroup;
+        }
+
+        public string GetResourceGroup()
+        {
+            return resourceGroup;
+        }
+
 
         public ISecurityContext GetSecurityContext()
         {
@@ -39,6 +62,26 @@
         public void SetSecurityContext(ISecurityContext securityContext)
         {
             this.securityContext = securityContext;
+        }
+
+        public void SetProductId(string productId)
+        {
+            this.productId = productId;
+        }
+
+        public string GetProductId()
+        {
+            return productId;
+        }
+
+        public void SetServiceName(string serviceName)
+        {
+            this.serviceName = serviceName;
+        }
+
+        public string GetServiceName()
+        {
+            return serviceName;
         }
     }
 }

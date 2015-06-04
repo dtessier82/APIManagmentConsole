@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
+using System.Net;
 using System.Threading.Tasks;
 using APIManagmentConsole.Models;
+using APIManagmentConsole.Models.Extensions;
 using Microsoft.Azure;
 using Microsoft.Azure.Subscriptions;
-using Newtonsoft.Json;
-using Microsoft.Azure.Management.Resources;
-using Microsoft.Azure.Management.ApiManagement;
 
 namespace APIManagmentConsole.Services.Implmentation
 {
@@ -19,13 +15,9 @@ namespace APIManagmentConsole.Services.Implmentation
         {
             var subClient = new SubscriptionClient(new TokenCloudCredentials(tenantId, token));
             var list = await subClient.Subscriptions.ListAsync();
-            if (list.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                var json = JsonConvert.SerializeObject(list.Subscriptions);
-                var res  = JsonConvert.DeserializeObject<List<Subscription>>(json);
-                return res;
-            }
-            return null;
+            return list.StatusCode == HttpStatusCode.OK ? 
+                list.Subscriptions.Select(sub => sub.ToBusinessModel()).ToList() 
+                : new List<Subscription>();
         }
     }
 }

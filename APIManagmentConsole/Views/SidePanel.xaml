@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
-             d:DesignHeight="550" d:DesignWidth="150">
+             d:DesignHeight="550" d:DesignWidth="200">
     <UserControl.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"/>
@@ -18,22 +18,73 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="SUSCRIPTIONS" FontWeight="ExtraBold" />
-            <ComboBox Grid.Row="1" BorderBrush="DarkRed" BorderThickness="3" FontWeight="Black"
+            <ComboBox Grid.Row="1" BorderThickness="3" FontWeight="Black"
                  ItemsSource="{Binding SidePanelVM.Subscriptions}" DisplayMemberPath="DisplayName"
                  SelectedItem="{Binding SidePanelVM.SelectedSubscription}">
 
             </ComboBox>
         </Grid>
-        <Separator />
+
         <Grid Margin="5" Visibility="{Binding SidePanelVM.IsSubscriptionSelected, Converter={StaticResource BoolVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="RESCOURCE GROUPS" FontWeight="ExtraBold" />
-            <ComboBox Grid.Row="1" BorderBrush="DarkRed" BorderThickness="3" FontWeight="Black"
+            <Label Grid.Row="0" Content="API RESOURCE GROUPS" FontWeight="ExtraBold" />
+            <ComboBox Grid.Row="1"  BorderThickness="3" FontWeight="Black"
                  ItemsSource="{Binding SidePanelVM.ResourceGroups}" DisplayMemberPath="Name"
                  SelectedItem="{Binding SidePanelVM.SelectedResourceGroup}">
+
+            </ComboBox>
+        </Grid>
+
+        <Grid Margin="5" Visibility="{Binding SidePanelVM.IsResourceGroupSelected, Converter={StaticResource BoolVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="API RESOURCES" FontWeight="ExtraBold" />
+            <ComboBox Grid.Row="1"  BorderThickness="3" FontWeight="Black"
+                 ItemsSource="{Binding SidePanelVM.Resources}" DisplayMemberPath="Name"
+                 SelectedItem="{Binding SidePanelVM.SelectedResource}">
+
+            </ComboBox>
+        </Grid>
+
+        <Grid Margin="5" Visibility="{Binding SidePanelVM.IsResourceSelected, Converter={StaticResource BoolVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="PRODUCTS" FontWeight="ExtraBold" />
+            <ComboBox Grid.Row="1"  BorderThickness="3" FontWeight="Black"
+                 ItemsSource="{Binding SidePanelVM.Products}" DisplayMemberPath="Name"
+                 SelectedItem="{Binding SidePanelVM.SelectedProduct}">
+
+            </ComboBox>
+        </Grid>
+        
+        <Grid Margin="5" Visibility="{Binding SidePanelVM.IsProductSelected, Converter={StaticResource BoolVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="PRODUCT APIS" FontWeight="ExtraBold" />
+            <ComboBox Grid.Row="1"  BorderThickness="3" FontWeight="Black"
+                 ItemsSource="{Binding SidePanelVM.Apis}" DisplayMemberPath="Name"
+                 SelectedItem="{Binding SidePanelVM.SelectedApi}">
+
+            </ComboBox>
+        </Grid>
+        <Grid Margin="5" Visibility="{Binding SidePanelVM.IsApiSelected, Converter={StaticResource BoolVisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30" />
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="PRODUCT APIS" FontWeight="ExtraBold" />
+            <ComboBox Grid.Row="1"  BorderThickness="3" FontWeight="Black"
+                 ItemsSource="{Binding SidePanelVM.ApiOperations}" DisplayMemberPath="Name"
+                 SelectedItem="{Binding SidePanelVM.SelectedApiOperation}">
 
             </ComboBox>
         </Grid>

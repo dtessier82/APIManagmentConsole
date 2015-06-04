@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using APIManagmentConsole.Models.Enum;
 using APIManagmentConsole.Models.Extensions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace APIManagmentConsole.Models
 {

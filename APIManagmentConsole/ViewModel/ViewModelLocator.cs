@@ -9,12 +9,11 @@
   DataContext="{Binding Source={StaticResource Locator}, Path=ViewModelName}"
 */
 
-using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Ioc;
-using Microsoft.Practices.ServiceLocation;
-using APIManagmentConsole.Model;
+using System.Diagnostics.CodeAnalysis;
 using APIManagmentConsole.Services;
 using APIManagmentConsole.Services.Implmentation;
+using GalaSoft.MvvmLight.Ioc;
+using Microsoft.Practices.ServiceLocation;
 
 namespace APIManagmentConsole.ViewModel
 {
@@ -33,16 +32,19 @@ namespace APIManagmentConsole.ViewModel
             SimpleIoc.Default.Register<ILoginService, LoginService>();
             SimpleIoc.Default.Register<ISubscriptionService, SubscriptionService>();
             SimpleIoc.Default.Register<IResourceGroupService, ResourceGroupService>();
+            SimpleIoc.Default.Register<IProductService, ProductService>();
+            SimpleIoc.Default.Register<IApiService, ApiService>();
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<SideSelectionViewModel>();
+            SimpleIoc.Default.Register<ProductViewModel>();
         }
 
         /// <summary>
         /// Gets the Main property.
         /// </summary>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance",
+        [SuppressMessage("Microsoft.Performance",
             "CA1822:MarkMembersAsStatic",
             Justification = "This non-static member is needed for data binding purposes.")]
         public MainViewModel Main

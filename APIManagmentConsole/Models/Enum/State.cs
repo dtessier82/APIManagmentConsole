@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace APIManagmentConsole.Models.Enum
+﻿namespace APIManagmentConsole.Models.Enum
 {
     public enum State
     {
+        None = 0,
         Active,
         Blocked,
         Enabled,
-        Disabled
+        Disabled,
     }
 }

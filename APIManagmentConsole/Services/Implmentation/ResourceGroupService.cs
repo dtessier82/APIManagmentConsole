@@ -1,25 +1,40 @@
-﻿using Microsoft.Azure;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
+using APIManagmentConsole.Models;
+using APIManagmentConsole.Models.Extensions;
+using Microsoft.Azure;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using ResourceGroup = APIManagmentConsole.Models.ResourceGroup;
 
 namespace APIManagmentConsole.Services.Implmentation
 {
     public class ResourceGroupService : IResourceGroupService
     {
-        public async Task<List<GenericResourceExtended>> ListAsync(string tenantId, string accessToken)
+        public async Task<List<ResourceGroup>> ListAsync(string tenantId, string accessToken)
         {
             var resClient = new ResourceManagementClient(new TokenCloudCredentials(tenantId, accessToken));
-            var list = await resClient.Resources.ListAsync(null);
-            if (list.StatusCode == System.Net.HttpStatusCode.OK)
+            var list = await resClient.ResourceGroups.ListAsync(null);
+            return list.StatusCode == HttpStatusCode.OK ? 
+                list.ResourceGroups.ToList().Select(resource => resource.ToBusinessModel()).ToList() 
+                : new List<ResourceGroup>();
+        }
+
+
+        public async Task<List<Resource>> ListApiManagementResourcesAsync(string tenantId, string accessToken, string resourceGroupName)
+        {
+            var resClient = new ResourceManagementClient(new TokenCloudCredentials(tenantId, accessToken));
+            var list = await resClient.Resources.ListAsync(new ResourceListParameters
             {
-                return list.Resources.ToList();
-            }
-            return null;
+                ResourceType = "Microsoft.ApiManagement/service",
+                ResourceGroupName = resourceGroupName
+            });
+
+            return list.StatusCode == HttpStatusCode.OK ?
+                list.Resources.ToList().Select(resource => resource.ToBusinessModel()).ToList()
+                : new List<Resource>();
         }
     }
 }
