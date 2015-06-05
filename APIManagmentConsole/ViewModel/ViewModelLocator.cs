@@ -38,7 +38,7 @@ namespace APIManagmentConsole.ViewModel
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<SideSelectionViewModel>();
-            SimpleIoc.Default.Register<ProductViewModel>();
+            SimpleIoc.Default.Register<APIListViewModel>();
         }
 
         /// <summary>

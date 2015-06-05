@@ -63,32 +63,6 @@
 
             </ComboBox>
         </Grid>
-        
-        <Grid Margin="5" Visibility="{Binding SidePanelVM.IsProductSelected, Converter={StaticResource BoolVisibilityConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30" />
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="PRODUCT APIS" FontWeight="ExtraBold" />
-            <ComboBox Grid.Row="1"  BorderThickness="3" FontWeight="Black"
-                 ItemsSource="{Binding SidePanelVM.Apis}" DisplayMemberPath="Name"
-                 SelectedItem="{Binding SidePanelVM.SelectedApi}">
-
-            </ComboBox>
-        </Grid>
-        <Grid Margin="5" Visibility="{Binding SidePanelVM.IsApiSelected, Converter={StaticResource BoolVisibilityConverter}}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30" />
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="PRODUCT APIS" FontWeight="ExtraBold" />
-            <ComboBox Grid.Row="1"  BorderThickness="3" FontWeight="Black"
-                 ItemsSource="{Binding SidePanelVM.ApiOperations}" DisplayMemberPath="Name"
-                 SelectedItem="{Binding SidePanelVM.SelectedApiOperation}">
-
-            </ComboBox>
-        </Grid>
-
     </StackPanel>
      
         

@@ -35,7 +35,7 @@
                 <ColumnDefinition Width="26*"/>
             </Grid.ColumnDefinitions>
             <view:SidePanel Grid.Column="0" />
-            <view:Product Grid.Column="1" Visibility="{Binding ShowProductDetail, Converter={StaticResource BoolVisibilityConverter}}"/>
+            <view:APIList Grid.Column="1" Visibility="{Binding ShowProductDetail, Converter={StaticResource BoolVisibilityConverter}}"/>
         </Grid>
         <view:Login Grid.Row="1" />
     </Grid>

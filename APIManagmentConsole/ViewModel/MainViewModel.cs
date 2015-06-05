@@ -20,7 +20,7 @@ namespace APIManagmentConsole.ViewModel
         public LoginViewModel LoginVM { get; private set; }
 
         public SideSelectionViewModel SidePanelVM { get; private set; }
-        public ProductViewModel ProductVM { get; private set; }
+        public APIListViewModel APIListVM { get; private set; }
 
         private bool isLoaded;
         public bool IsLoaded
@@ -66,7 +66,7 @@ namespace APIManagmentConsole.ViewModel
             LoginVM = new LoginViewModel(loginService, this);
             SidePanelVM = new SideSelectionViewModel(subscriptionService, resourceGroupService, 
                 productService, apiService, this);
-            ProductVM = new ProductViewModel(apiService);
+            APIListVM = new APIListViewModel(apiService);
 
             LogoutCommand = new RelayCommand(DoLogout);
 
@@ -102,7 +102,7 @@ namespace APIManagmentConsole.ViewModel
                 return;
             }
 
-            ProductVM.Product = Id;
+            APIListVM.ProductId = Id;
             ShowProductDetail = true;
         }
     }

@@ -124,24 +124,6 @@ namespace APIManagmentConsole.ViewModel
             }
         }
 
-        private bool isProductSelected;
-        public bool IsProductSelected
-        {
-            get { return isProductSelected; }
-            set
-            {
-                isProductSelected = value;
-                RaisePropertyChanged("IsProductSelected");
-                if (isProductSelected)
-                {
-                    Dispatcher.CurrentDispatcher.BeginInvoke(new Action(async () => await GetProductApis()));
-                }
-
-
-            }
-        }
-
-
         private Product selectedProduct;
         public Product SelectedProduct
         {
@@ -155,66 +137,14 @@ namespace APIManagmentConsole.ViewModel
                 RaisePropertyChanged("SelectedProduct");
                 if (selectedProduct == null) return;
                 App.GetApplicationContext().SetProductId(selectedProduct.Id);
-                IsProductSelected = true;
-            }
-        }
-
-        private bool isApiSelected;
-        public bool IsApiSelected
-        {
-            get { return isApiSelected; }
-            set
-            {
-                isApiSelected = value;
-                RaisePropertyChanged("IsApiSelected");
-                if (isApiSelected)
-                {
-                    Dispatcher.CurrentDispatcher.BeginInvoke(new Action(async () => await GetApiOperations()));
-                }
-
-
-            }
-        }
-
-        private ApiDefinition selectedApi;
-        public ApiDefinition SelectedApi
-        {
-            get { return selectedApi; }
-            set
-            {
-                if (value == selectedApi)
-                    return;
-
-                selectedApi = value;
-                RaisePropertyChanged("SelectedApi");
-                if (selectedApi == null) return;
-                IsApiSelected = true;
-               // parent.ShowApiDetail(selectedApi.Id);
-            }
-        }
-
-        private Operation selectedApiOperation;
-        public Operation SelectedApiOperation
-        {
-            get { return selectedApiOperation; }
-            set
-            {
-                if (value == selectedApiOperation)
-                    return;
-
-                selectedApiOperation = value;
-                RaisePropertyChanged("SelectedApi");
-                if (selectedApiOperation == null) return;
-                parent.ShowApiDetail(selectedApiOperation.ApiId);
+                parent.ShowApiDetail(selectedProduct.Id);
             }
         }
 
         public ObservableCollection<Subscription> Subscriptions { get; set; }
         public ObservableCollection<ResourceGroup> ResourceGroups { get; set; }
         public ObservableCollection<Resource> Resources { get; set; }
-        public ObservableCollection<Product> Products { get; set; }
-        public ObservableCollection<ApiDefinition> Apis { get; set; }
-        public ObservableCollection<Operation> ApiOperations { get; set; } 
+        public ObservableCollection<Product> Products { get; set; } 
 
         public SideSelectionViewModel(ISubscriptionService subscriptionsService, 
             IResourceGroupService resourceGroupService, IProductService productService, 
@@ -230,8 +160,6 @@ namespace APIManagmentConsole.ViewModel
             ResourceGroups = new ObservableCollection<ResourceGroup>();
             Resources = new ObservableCollection<Resource>();
             Products = new ObservableCollection<Product>();
-            Apis = new ObservableCollection<ApiDefinition>();
-            ApiOperations = new ObservableCollection<Operation>();
         }
 
         public async Task GetSubscriptions()
@@ -270,7 +198,6 @@ namespace APIManagmentConsole.ViewModel
 
         }
 
-
         public async Task GetProducts()
         {
             var list =
@@ -281,30 +208,6 @@ namespace APIManagmentConsole.ViewModel
                         SelectedResource.Name, SelectedResourceGroup.Name);
 
            Products.ClearAndAddAll(list);
-        }
-
-        public async Task GetProductApis()
-        {
-            var list =
-                await
-                    apiService.ListProductApisAsync(
-                     SelectedSubscription.SubscriptionId,
-                    App.GetApplicationContext().GetSecurityContext().GetAccessToken(),
-                        SelectedResource.Name, SelectedResourceGroup.Name, SelectedProduct.Id);
-
-            Apis.ClearAndAddAll(list);
-        }
-
-        public async Task GetApiOperations()
-        {
-            var list =
-                await
-                    apiService.ListApiOperationsAsync(
-                     SelectedSubscription.SubscriptionId,
-                    App.GetApplicationContext().GetSecurityContext().GetAccessToken(),
-                        SelectedResource.Name, SelectedResourceGroup.Name, SelectedApi.Id);
-
-            ApiOperations.ClearAndAddAll(list);
         }
     }
 }

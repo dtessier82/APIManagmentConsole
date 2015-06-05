@@ -18,9 +18,9 @@ namespace APIManagmentConsole.Views
     /// <summary>
     /// Interaction logic for Product.xaml
     /// </summary>
-    public partial class Product : UserControl
+    public partial class APIList : UserControl
     {
-        public Product()
+        public APIList()
         {
             InitializeComponent();
         }
