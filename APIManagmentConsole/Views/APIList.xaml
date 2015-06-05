@@ -5,27 +5,73 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="500">
-    <Grid>
-        <ListView Name="lv" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-        HorizontalContentAlignment="Stretch" Grid.ColumnSpan="3" Grid.Row="2"
-        ItemsSource="{Binding APIListVM.ProdcuctApis}">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Center" />
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="140" Header="API" DisplayMemberBinding="{Binding Name}" />
-                    <GridViewColumn Width="auto">
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="X" Command="{Binding ElementName=lv,Path=APIListVM.GetApiCommand}"  />
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid Background="BlanchedAlmond">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <Label Content="PRODUCT:" FontWeight="Bold"/>
+                <Label Content="{Binding APIListVM.Product.Name}" FontWeight="Bold"/>
+            </StackPanel>
+            <Separator FontWeight="Bold" Foreground="Black" />
+            <Label Content="PRODUCT APIS:" FontWeight="Bold"/>
+            <Separator FontWeight="Bold" Foreground="Black" />
+            <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+        HorizontalContentAlignment="Left" MinHeight="150" MaxHeight="200"
+        ItemsSource="{Binding APIListVM.ProductApis}" SelectedItem="{Binding APIListVM.SelectedApi}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView>
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style TargetType="GridViewColumnHeader">
+                                <Setter Property="HorizontalContentAlignment" Value="Left" />
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Width="450" Header="API" DisplayMemberBinding="{Binding Name}"  />
+                        
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                <Button Content="Export API" Command="{Binding APIListVM.ExportApiCommand}"></Button>
+                <Button Content="Get API Operations" Command="{Binding APIListVM.GetApiOperationsCommand}"></Button>
+            </StackPanel>
+            <StackPanel Margin="0,20,0,0" Visibility="{Binding APIListVM.HasOperations, Converter={StaticResource BoolVisibilityConverter}}">
+                <Label Content="API OPERATIONS:" FontWeight="Bold"/>
+                <Separator FontWeight="Bold" Foreground="Black" />
+                <ListView HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                	HorizontalContentAlignment="Left" MaxHeight="250" MinHeight="150"
+                	ItemsSource="{Binding APIListVM.ApiOperations}" SelectedItem="{Binding APIListVM.SelectedOperation}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListViewItem}">
+                            <Setter Property="HorizontalContentAlignment" Value="Left" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <GridView.ColumnHeaderContainerStyle>
+                                <Style TargetType="{x:Type GridViewColumnHeader}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                                </Style>
+                            </GridView.ColumnHeaderContainerStyle>
+                            <GridViewColumn Width="100" Header="Method" DisplayMemberBinding="{Binding Method}"  />
+                            <GridViewColumn Width="450" Header="Operation" DisplayMemberBinding="{Binding Name}"  />
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+                <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                    <Button Content="Export API Operation" Command="{Binding APIListVM.ExportApiOperationCommand}"></Button>
+                </StackPanel>
+            </StackPanel>
+           
+        </StackPanel>
+      
     </Grid>
 </UserControl>

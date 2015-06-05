@@ -34,11 +34,13 @@ namespace APIManagmentConsole.ViewModel
             SimpleIoc.Default.Register<IResourceGroupService, ResourceGroupService>();
             SimpleIoc.Default.Register<IProductService, ProductService>();
             SimpleIoc.Default.Register<IApiService, ApiService>();
+            SimpleIoc.Default.Register<IApiOperationService, ApiOperationService>();
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();
             SimpleIoc.Default.Register<SideSelectionViewModel>();
             SimpleIoc.Default.Register<APIListViewModel>();
+            SimpleIoc.Default.Register<APIJSONEditorViewModel>();
         }
 
         /// <summary>
@@ -52,6 +54,14 @@ namespace APIManagmentConsole.ViewModel
             get
             {
                 return ServiceLocator.Current.GetInstance<MainViewModel>();
+            }
+        }
+
+        public APIJSONEditorViewModel ApiJsonEditor
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<APIJSONEditorViewModel>();
             }
         }
 

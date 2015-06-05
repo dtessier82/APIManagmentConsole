@@ -24,5 +24,14 @@ namespace APIManagmentConsole.ViewModel.Extensions
             collection.Clear();
             list.ForEach(item => collection.Add(item));
         }
+
+        public static bool IsNullOrEmpty<T>(this ObservableCollection<T> collection)
+        {
+
+            if (collection == null)
+                return true;
+
+            return !collection.Any();
+        }
     }
 }

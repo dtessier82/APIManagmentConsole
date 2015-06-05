@@ -137,7 +137,7 @@ namespace APIManagmentConsole.ViewModel
                 RaisePropertyChanged("SelectedProduct");
                 if (selectedProduct == null) return;
                 App.GetApplicationContext().SetProductId(selectedProduct.Id);
-                parent.ShowApiDetail(selectedProduct.Id);
+                parent.ShowApiDetail(selectedProduct);
             }
         }
 

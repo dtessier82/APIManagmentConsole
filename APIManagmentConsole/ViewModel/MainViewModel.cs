@@ -3,6 +3,7 @@ using APIManagmentConsole.Model;
 using APIManagmentConsole.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
+using APIManagmentConsole.Models;
 
 namespace APIManagmentConsole.ViewModel
 {
@@ -61,12 +62,13 @@ namespace APIManagmentConsole.ViewModel
             ISubscriptionService subscriptionService, 
             IResourceGroupService resourceGroupService,
             IProductService productService,
+            IApiOperationService apiOperationService,
             IApiService apiService)
         {
             LoginVM = new LoginViewModel(loginService, this);
             SidePanelVM = new SideSelectionViewModel(subscriptionService, resourceGroupService, 
                 productService, apiService, this);
-            APIListVM = new APIListViewModel(apiService);
+            APIListVM = new APIListViewModel(apiService, apiOperationService, this);
 
             LogoutCommand = new RelayCommand(DoLogout);
 
@@ -95,14 +97,9 @@ namespace APIManagmentConsole.ViewModel
             LoginVM.IsAuthenticated = false;
         }
 
-        public void ShowApiDetail(string Id)
+        public void ShowApiDetail(Product product)
         {
-            if (string.IsNullOrEmpty(Id))
-            {
-                return;
-            }
-
-            APIListVM.ProductId = Id;
+            APIListVM.Product = product;
             ShowProductDetail = true;
         }
     }

@@ -13,36 +13,91 @@ using System.Collections.ObjectModel;
 using APIManagmentConsole.ViewModel.Extensions;
 using GalaSoft.MvvmLight.CommandWpf;
 using System.Windows;
+using APIManagmentConsole.Views;
 
 namespace APIManagmentConsole.ViewModel
 {
     public class APIListViewModel : ViewModelBase
     {
         private readonly IApiService apiService;
+        private readonly IApiOperationService apiOperationService;
+        private readonly MainViewModel parent;
 
         public ObservableCollection<ApiDefinition> ProductApis { get; set; }
-        private RelayCommand getApiCommand;
-
-        public APIListViewModel(IApiService apiService)
+        public ObservableCollection<Operation> ApiOperations { get; set; } 
+        private RelayCommand getApiOperationsCommand;
+        private RelayCommand exportApiCommand;
+        private RelayCommand exportApiOperationCommand;
+        
+        public RelayCommand GetApiOperationsCommand
         {
-            this.apiService = apiService;
-            ProductApis = new ObservableCollection<ApiDefinition>();
-        }
-
-        public RelayCommand GetApiCommand
-        {
-            get
-            {
-                return getApiCommand ?? (getApiCommand = new RelayCommand( () =>
-                {
-                    DoGetAPI();
-                }));
+            get {
+                return getApiOperationsCommand ??
+                       (getApiOperationsCommand = new RelayCommand(async () => await DoGetApiOperations(), CanGetApi));
             }
         }
 
-        private void DoGetAPI()
+        public RelayCommand ExportApiCommand
         {
-           MessageBox.Show("Selected ID:" + SelectedApi.Name);
+            get
+            {
+                return exportApiCommand ??
+                       (exportApiCommand = new RelayCommand(async () => await DoExportApi(), CanGetApi));
+            }
+        }
+
+        public RelayCommand ExportApiOperationCommand
+        {
+            get
+            {
+                return exportApiOperationCommand ??
+                       (exportApiOperationCommand = new RelayCommand(DoApiOperationExport, CanGetOperation));
+            }
+        }
+
+
+        public APIListViewModel(IApiService apiService, IApiOperationService apiOperationService, MainViewModel parent)
+        {
+            this.apiService = apiService;
+            this.apiOperationService = apiOperationService;
+            this.parent = parent;
+            ProductApis = new ObservableCollection<ApiDefinition>();
+            ApiOperations = new ObservableCollection<Operation>();
+        }
+
+        private bool CanGetApi()
+        {
+            return SelectedApi != null;
+        }
+
+        private bool CanGetOperation()
+        {
+            return SelectedOperation != null;
+        }
+
+        private async Task DoExportApi()
+        {
+            var swagger =
+               await
+                   apiService.SwaggerExport(
+                   App.GetApplicationContext().GetSubscriptionId(),
+                   App.GetApplicationContext().GetSecurityContext().GetAccessToken(),
+                   App.GetApplicationContext().GetServiceName(),
+                   App.GetApplicationContext().GetResourceGroup(),
+                   selectedApi.Id);
+
+            MessageBox.Show(swagger);
+        }
+
+        private Operation selectedOperation;
+        public Operation SelectedOperation
+        {
+            get { return selectedOperation; }
+            set
+            {
+                selectedOperation = value;
+                RaisePropertyChanged("SelectedOperation");
+            }
         }
 
         private ApiDefinition selectedApi;
@@ -53,21 +108,30 @@ namespace APIManagmentConsole.ViewModel
             {
                 selectedApi = value;
                 RaisePropertyChanged("SelectedApi");
+                ApiOperations.Clear();
+                RaisePropertyChanged("HasOperations");
             }
         }
-        private string productId;
-        public string ProductId
+
+        private Product product;
+        public Product Product
         {
-            get { return productId; }
+            get { return product; }
             set
             {
-                productId = value;
-                RaisePropertyChanged("ProductId");
-                if (!string.IsNullOrEmpty(value))
+                product = value;
+                RaisePropertyChanged("Product");
+                if (product != null)
                 {
                     Dispatcher.CurrentDispatcher.BeginInvoke(new Action(async () => await GetProductApis()));
                 }
             }
+        }
+
+      
+        public bool HasOperations
+        {
+            get { return !ApiOperations.IsNullOrEmpty(); }
         }
 
         private async Task GetProductApis()
@@ -79,9 +143,34 @@ namespace APIManagmentConsole.ViewModel
                    App.GetApplicationContext().GetSecurityContext().GetAccessToken(),
                    App.GetApplicationContext().GetServiceName(),
                    App.GetApplicationContext().GetResourceGroup(),
-                   productId);
+                   product.Id);
 
            ProductApis.ClearAndAddAll(list);
+
+        }
+
+        private async Task DoGetApiOperations()
+        {
+            var list =
+                await
+                    apiService.ListApiOperationsAsync(
+                    App.GetApplicationContext().GetSubscriptionId(),
+                    App.GetApplicationContext().GetSecurityContext().GetAccessToken(),
+                    App.GetApplicationContext().GetServiceName(),
+                    App.GetApplicationContext().GetResourceGroup(),
+                    selectedApi.Id);
+
+            ApiOperations.ClearAndAddAll(list);
+            RaisePropertyChanged("HasOperations");
+
+        }
+
+        private void DoApiOperationExport()
+        {
+            var jsonEditor = new APIJSONEditorViewModel(apiOperationService, apiService, 
+                parent, ApiType.Operation, SelectedApi.Id,  SelectedOperation.Id);
+            var win = new APIJsonEditView {DataContext = jsonEditor};
+            win.ShowDialog();
 
         }
     }

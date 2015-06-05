@@ -63,7 +63,7 @@ namespace APIManagmentConsole.Services.Implmentation
             string apiId)
         {
             var apimClient = new ApiManagementClient(new TokenCloudCredentials(subcriptionId, accessToken));
-            var api = await apimClient.Apis.ExportAsync(resourceGroup, serviceName, apiId, "application/json", new CancellationToken(false));
+            var api = await apimClient.Apis.ExportAsync(resourceGroup, serviceName, apiId, "application/vnd.swagger.doc+json", new CancellationToken(false));
 
             return api.StatusCode.Equals(HttpStatusCode.OK) ? Encoding.UTF8.GetString(api.Content) : null;
         }

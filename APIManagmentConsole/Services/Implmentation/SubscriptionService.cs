@@ -15,9 +15,14 @@ namespace APIManagmentConsole.Services.Implmentation
         {
             var subClient = new SubscriptionClient(new TokenCloudCredentials(tenantId, token));
             var list = await subClient.Subscriptions.ListAsync();
-            return list.StatusCode == HttpStatusCode.OK ? 
-                list.Subscriptions.Select(sub => sub.ToBusinessModel()).ToList() 
-                : new List<Subscription>();
+            if (list.StatusCode == HttpStatusCode.OK)
+            {
+                return list.Subscriptions.Where(
+                        item => item.DisplayName.EndsWith("API") || item.DisplayName.Equals("Development2"))
+                        .Select(item=>item.ToBusinessModel()).ToList();
+            }
+
+            return new List<Subscription>();
         }
     }
 }

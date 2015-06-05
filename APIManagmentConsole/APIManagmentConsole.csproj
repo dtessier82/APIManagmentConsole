@@ -121,6 +121,7 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
@@ -147,6 +148,7 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\ApiType.cs" />
     <Compile Include="Models\Extensions\ApiDefinitionExtensions.cs" />
     <Compile Include="Models\Extensions\ProductExtensions.cs" />
     <Compile Include="Models\Extensions\ResourceGroupExtensions.cs" />
@@ -175,7 +177,9 @@
     <Compile Include="Models\ProductTemplate.cs" />
     <Compile Include="Models\Subscription.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="Services\IApiOperationService.cs" />
     <Compile Include="Services\IApiService.cs" />
+    <Compile Include="Services\Implmentation\ApiOperationService.cs" />
     <Compile Include="Services\Implmentation\ApiService.cs" />
     <Compile Include="Services\IProductService.cs" />
     <Compile Include="Services\ILoginService.cs" />
@@ -188,8 +192,12 @@
     <Compile Include="UserControls\BindablePasswordBox.xaml.cs">
       <DependentUpon>BindablePasswordBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\APIJSONEditorViewModel.cs" />
     <Compile Include="ViewModel\Extensions\ViewModelExtensions.cs" />
     <Compile Include="ViewModel\APIListViewModel.cs" />
+    <Compile Include="Views\APIJsonEditView.xaml.cs">
+      <DependentUpon>APIJsonEditView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -216,6 +224,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="UserControls\BindablePasswordBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\APIJsonEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

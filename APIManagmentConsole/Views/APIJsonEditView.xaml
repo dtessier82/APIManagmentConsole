@@ -1,0 +1,14 @@
+﻿<Window x:Class="APIManagmentConsole.Views.APIJsonEditView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ApiOperationEditView" Height="Auto" Width="845.551"
+        DataContext="{Binding ApiJsonEditor, Source={StaticResource Locator}}">
+    <Grid>
+       
+        <StackPanel Margin="10">
+            <Label Content="JSON Text:" FontWeight="Bold"/>
+            <TextBox Height="Auto" TextWrapping="WrapWithOverflow" Text="{Binding JsonText}"  />
+        </StackPanel>
+       
+    </Grid>
+</Window>

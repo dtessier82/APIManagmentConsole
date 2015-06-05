@@ -17,9 +17,12 @@ namespace APIManagmentConsole.Services.Implmentation
         {
             var resClient = new ResourceManagementClient(new TokenCloudCredentials(tenantId, accessToken));
             var list = await resClient.ResourceGroups.ListAsync(null);
-            return list.StatusCode == HttpStatusCode.OK ? 
-                list.ResourceGroups.ToList().Select(resource => resource.ToBusinessModel()).ToList() 
-                : new List<ResourceGroup>();
+            if (list.StatusCode == HttpStatusCode.OK)
+            {
+                return list.ResourceGroups.ToList().Where(item => item.Name.StartsWith("Api"))
+                    .Select(resource => resource.ToBusinessModel()).ToList();
+            }
+            return new List<ResourceGroup>();
         }
 
 
