@@ -23,29 +23,6 @@ namespace APIManagmentConsole
             this.parent = parent;
         }
 
-        private bool _IsAuthenticated;
-        public bool IsAuthenticated
-        {
-            get { return _IsAuthenticated; }
-            set
-            {
-                if (value != _IsAuthenticated)
-                {
-                    _IsAuthenticated = value;
-                    RaisePropertyChanged("IsAuthenticated");
-                    RaisePropertyChanged("IsNotAuthenticated");
-                }
-            }
-        }
-
-        public bool IsNotAuthenticated
-        {
-            get
-            {
-                return !IsAuthenticated;
-            }
-        }
-
         public SecureString Password
         {
             get
@@ -93,8 +70,7 @@ namespace APIManagmentConsole
                 {
                     try
                     {
-                        IsAuthenticated = await loginService.Login(Username, Password);
-                        parent.IsLoaded = IsAuthenticated;
+                        parent.IsAuthenticated = await loginService.Login(Username, Password);
                         Cleanup();
                     }
                     catch (Exception e)

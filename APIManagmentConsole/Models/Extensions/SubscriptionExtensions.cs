@@ -23,10 +23,10 @@ namespace APIManagmentConsole.Models.Extensions
             };
         }
 
-        private static State GetState(AzureSubscription subscription)
+        private static ProductState GetState(AzureSubscription subscription)
         {
-            State state;
-            return State.TryParse(subscription.State, out state) ? state : State.None;
+            ProductState state;
+            return ProductState.TryParse(subscription.State, out state) ? state : ProductState.NotPublished;
         }
     }
 }

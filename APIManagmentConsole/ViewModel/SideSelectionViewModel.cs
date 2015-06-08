@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows.Threading;
+using System.Windows;
 using APIManagmentConsole.Models;
 using APIManagmentConsole.Services;
 using APIManagmentConsole.ViewModel.Extensions;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 
 namespace APIManagmentConsole.ViewModel
 {
@@ -28,10 +29,8 @@ namespace APIManagmentConsole.ViewModel
                 isSubscriptionSelected = value;
                 RaisePropertyChanged("IsSubscriptionSelected");
                 if (IsSubscriptionSelected) {
-                    Dispatcher.CurrentDispatcher.BeginInvoke(new Action(async () => await GetResourceGroups()));
-                }
-
-               
+                    Application.Current.Dispatcher.BeginInvoke(new Action(async () => await GetResourceGroups()));
+                }   
             }
         }
 
@@ -63,7 +62,7 @@ namespace APIManagmentConsole.ViewModel
                 RaisePropertyChanged("IsResourceGroupSelected");
                 if (IsSubscriptionSelected)
                 {
-                    Dispatcher.CurrentDispatcher.BeginInvoke(new Action(async () => await GetResources()));
+                    Application.Current.Dispatcher.BeginInvoke(new Action(async () => await GetResources()));
                 }
 
 
@@ -100,7 +99,7 @@ namespace APIManagmentConsole.ViewModel
                 RaisePropertyChanged("IsResourceSelected");
                 if (isResourceSelected)
                 {
-                    Dispatcher.CurrentDispatcher.BeginInvoke(new Action(async () => await GetProducts()));
+                    Application.Current.Dispatcher.BeginInvoke(new Action(async () => await GetProducts()));
                 }
 
 
@@ -124,6 +123,17 @@ namespace APIManagmentConsole.ViewModel
             }
         }
 
+        private bool isProductSelected;
+        public bool IsProductSelected
+        {
+            get { return isProductSelected; }
+            set
+            {
+                isProductSelected = value;
+                RaisePropertyChanged("IsProductSelected");
+            }
+        }
+
         private Product selectedProduct;
         public Product SelectedProduct
         {
@@ -135,16 +145,46 @@ namespace APIManagmentConsole.ViewModel
 
                 selectedProduct = value;
                 RaisePropertyChanged("SelectedProduct");
-                if (selectedProduct == null) return;
-                App.GetApplicationContext().SetProductId(selectedProduct.Id);
-                parent.ShowApiDetail(selectedProduct);
+                if (selectedProduct == null) 
+                    return;
+                IsProductSelected = true;
+
             }
         }
 
         public ObservableCollection<Subscription> Subscriptions { get; set; }
         public ObservableCollection<ResourceGroup> ResourceGroups { get; set; }
         public ObservableCollection<Resource> Resources { get; set; }
-        public ObservableCollection<Product> Products { get; set; } 
+        public ObservableCollection<Product> Products { get; set; }
+
+        private RelayCommand getApiListCommand;
+
+        public RelayCommand GetApiListCommand
+        {
+            get
+            {
+                return getApiListCommand ?? (getApiListCommand = new RelayCommand(() =>
+                {
+                    App.GetApplicationContext().SetProductId(SelectedProduct.Id);
+                    parent.ShowApiDetail(selectedProduct);
+
+                }));
+            }
+        }
+
+        private RelayCommand getUserListCommand;
+
+        public RelayCommand GetUserListCommand
+        {
+            get
+            {
+                return getUserListCommand ?? (getUserListCommand = new RelayCommand(() =>
+                {
+                    parent.ShowUserList(true);
+
+                }));
+            }
+        } 
 
         public SideSelectionViewModel(ISubscriptionService subscriptionsService, 
             IResourceGroupService resourceGroupService, IProductService productService, 

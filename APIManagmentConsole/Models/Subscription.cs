@@ -6,7 +6,7 @@ namespace APIManagmentConsole.Models
     {
         public string DisplayName { get; set; }
         public string Id { get; set; }
-        public State State { get; set; }
+        public ProductState State { get; set; }
         public string SubscriptionId { get; set; }
     }
 }

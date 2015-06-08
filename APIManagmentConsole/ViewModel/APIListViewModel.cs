@@ -1,19 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Navigation;
-using System.Windows.Threading;
-using APIManagmentConsole.Services;
-using GalaSoft.MvvmLight;
-using Newtonsoft.Json;
-using APIManagmentConsole.Models;
 using System.Collections.ObjectModel;
-using APIManagmentConsole.ViewModel.Extensions;
-using GalaSoft.MvvmLight.CommandWpf;
+using System.Threading.Tasks;
 using System.Windows;
+using APIManagmentConsole.Models;
+using APIManagmentConsole.Services;
+using APIManagmentConsole.ViewModel.Extensions;
 using APIManagmentConsole.Views;
+using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.CommandWpf;
 
 namespace APIManagmentConsole.ViewModel
 {
@@ -22,6 +16,16 @@ namespace APIManagmentConsole.ViewModel
         private readonly IApiService apiService;
         private readonly IApiOperationService apiOperationService;
         private readonly MainViewModel parent;
+        private bool showList;
+        public bool ShowAPIList
+        {
+            get { return showList; }
+            set
+            {
+                showList = value;
+                RaisePropertyChanged("ShowAPIList");
+            }
+        }
 
         public ObservableCollection<ApiDefinition> ProductApis { get; set; }
         public ObservableCollection<Operation> ApiOperations { get; set; } 
@@ -75,6 +79,8 @@ namespace APIManagmentConsole.ViewModel
             return SelectedOperation != null;
         }
 
+
+
         private async Task DoExportApi()
         {
             var swagger =
@@ -123,7 +129,7 @@ namespace APIManagmentConsole.ViewModel
                 RaisePropertyChanged("Product");
                 if (product != null)
                 {
-                    Dispatcher.CurrentDispatcher.BeginInvoke(new Action(async () => await GetProductApis()));
+                    Application.Current.Dispatcher.BeginInvoke(new Action(async () => await GetProductApis()));
                 }
             }
         }

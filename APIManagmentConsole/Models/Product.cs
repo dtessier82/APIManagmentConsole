@@ -11,9 +11,11 @@ namespace APIManagmentConsole.Models
         public string Terms { get; set; }
         public int? SubscriptionsLimit { get; set; }
         public bool? ApprovalRequired { get; set; }
-        public ProductStateContract State { get; set; }
+        public ProductState State { get; set; }
         public bool? SubscriptionRequired { get; set; }
         public string IdPath { get; set; }
+
+        public string StateDescription { get { return State.ToString(); } }
         
     }
 }

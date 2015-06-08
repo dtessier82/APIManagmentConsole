@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using APIManagmentConsole.Model;
+using APIManagmentConsole.Models;
 using APIManagmentConsole.Services;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
-using APIManagmentConsole.Models;
 
 namespace APIManagmentConsole.ViewModel
 {
@@ -22,36 +22,23 @@ namespace APIManagmentConsole.ViewModel
 
         public SideSelectionViewModel SidePanelVM { get; private set; }
         public APIListViewModel APIListVM { get; private set; }
+        public UserListViewModel UserListVM { get; private set; }
 
-        private bool isLoaded;
-        public bool IsLoaded
+        private bool isAuthenticated;
+        public bool IsAuthenticated
         {
-            get
-            {
-                return isLoaded;
-            }
+            get { return isAuthenticated; }
             set
             {
-                isLoaded = value;
-                RaisePropertyChanged("IsLoaded");
-                if (isLoaded)
+                if (value == isAuthenticated) 
+                    return;
+
+                isAuthenticated = value;
+                RaisePropertyChanged("IsAuthenticated");
+                if (isAuthenticated)
                 {
                     Load();
                 }
-            }
-        }
-
-        private bool showProductDetail;
-        public bool ShowProductDetail
-        {
-            get
-            {
-                return showProductDetail;
-            }
-            set
-            {
-                showProductDetail = value;
-                RaisePropertyChanged("ShowProductDetail");
             }
         }
 
@@ -63,26 +50,26 @@ namespace APIManagmentConsole.ViewModel
             IResourceGroupService resourceGroupService,
             IProductService productService,
             IApiOperationService apiOperationService,
+            IUserService userService,
             IApiService apiService)
         {
             LoginVM = new LoginViewModel(loginService, this);
-            SidePanelVM = new SideSelectionViewModel(subscriptionService, resourceGroupService, 
-                productService, apiService, this);
+            SidePanelVM = new SideSelectionViewModel(subscriptionService, resourceGroupService,  productService, apiService, this);
             APIListVM = new APIListViewModel(apiService, apiOperationService, this);
-
+            UserListVM = new UserListViewModel(userService, this);
             LogoutCommand = new RelayCommand(DoLogout);
 
             Menu = new List<ApplicationMenuItem>
             {
-                new ApplicationMenuItem { Header = "Log off", Command = LogoutCommand },
-                new ApplicationMenuItem { Header = "Other stuff", 
-                    Children = new List<ApplicationMenuItem>
-                    {
-                        new ApplicationMenuItem { Header = "Load new control", Command = null },
-                        new ApplicationMenuItem { Header = "Load control v2", Command = null },
-                        new ApplicationMenuItem { Header = "Open new window", Command = null },
-                    },
-                },
+                new ApplicationMenuItem { Header = "Log off", Command = LogoutCommand }
+                //new ApplicationMenuItem { Header = "Other stuff", 
+                //    Children = new List<ApplicationMenuItem>
+                //    {
+                //        new ApplicationMenuItem { Header = "Load new control", Command = null },
+                //        new ApplicationMenuItem { Header = "Load control v2", Command = null },
+                //        new ApplicationMenuItem { Header = "Open new window", Command = null },
+                //    },
+                //},
             };
         }
 
@@ -94,13 +81,20 @@ namespace APIManagmentConsole.ViewModel
         private void DoLogout()
         {
             App.GetApplicationContext().SetSecurityContext(null);
-            LoginVM.IsAuthenticated = false;
+            IsAuthenticated = false;
         }
 
         public void ShowApiDetail(Product product)
         {
             APIListVM.Product = product;
-            ShowProductDetail = true;
+            APIListVM.ShowAPIList = true;
+            UserListVM.ShowUserList = false;
+        }
+
+        public void ShowUserList(bool show)
+        {
+            APIListVM.ShowAPIList = !show;
+            UserListVM.Show = show;
         }
     }
 }

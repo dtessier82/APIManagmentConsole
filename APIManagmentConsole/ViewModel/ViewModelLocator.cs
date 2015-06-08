@@ -35,6 +35,7 @@ namespace APIManagmentConsole.ViewModel
             SimpleIoc.Default.Register<IProductService, ProductService>();
             SimpleIoc.Default.Register<IApiService, ApiService>();
             SimpleIoc.Default.Register<IApiOperationService, ApiOperationService>();
+            SimpleIoc.Default.Register<IUserService, UserService>();
 
             SimpleIoc.Default.Register<MainViewModel>();
             SimpleIoc.Default.Register<LoginViewModel>();

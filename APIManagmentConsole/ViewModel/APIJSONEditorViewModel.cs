@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using GalaSoft.MvvmLight;
+﻿using System.Threading.Tasks;
 using APIManagmentConsole.Models;
 using APIManagmentConsole.Services;
-using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight;
 using Newtonsoft.Json;
 
 namespace APIManagmentConsole.ViewModel

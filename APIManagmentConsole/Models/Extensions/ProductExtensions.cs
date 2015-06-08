@@ -26,7 +26,7 @@ namespace APIManagmentConsole.Models.Extensions
                 IdPath = resource.IdPath,
                 SubscriptionRequired = resource.SubscriptionRequired,
                 SubscriptionsLimit = resource.SubscriptionsLimit,
-                State = resource.State,
+                State = resource.State.Equals(ProductStateContract.Published) ? ProductState.Published : ProductState.NotPublished,
                 ApprovalRequired = resource.ApprovalRequired
             };
         }

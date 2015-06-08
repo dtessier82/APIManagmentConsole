@@ -23,5 +23,10 @@ namespace APIManagmentConsole
         {
             return applicationContext;
         }
+
+        public static void ShowMessage(string message)
+        {
+            MessageBox.Show(message);
+        }
     }
 }

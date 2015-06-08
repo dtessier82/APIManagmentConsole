@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:converter="clr-namespace:APIManagmentConsole.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="200">
     <UserControl.Resources>
         <ResourceDictionary>
-            <BooleanToVisibilityConverter x:Key="BoolVisibilityConverter"/>
+            <converter:BooleanToVisibilityConverter  x:Key="BooleanToVisibilityConverter"  True="Visible" False="Collapsed" />
         </ResourceDictionary>
     </UserControl.Resources>
     <StackPanel Background="WhiteSmoke">
@@ -19,52 +19,52 @@
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="SUSCRIPTIONS" FontWeight="ExtraBold" />
             <ComboBox Grid.Row="1" BorderThickness="3" FontWeight="Black"
-                 ItemsSource="{Binding SidePanelVM.Subscriptions}" DisplayMemberPath="DisplayName"
-                 SelectedItem="{Binding SidePanelVM.SelectedSubscription}">
+                 ItemsSource="{Binding Subscriptions}" DisplayMemberPath="DisplayName"
+                 SelectedItem="{Binding SelectedSubscription}">
 
             </ComboBox>
         </Grid>
 
-        <Grid Margin="5" Visibility="{Binding SidePanelVM.IsSubscriptionSelected, Converter={StaticResource BoolVisibilityConverter}}">
+        <Grid Margin="5" Visibility="{Binding IsSubscriptionSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="API RESOURCE GROUPS" FontWeight="ExtraBold" />
             <ComboBox Grid.Row="1"  BorderThickness="3" FontWeight="Black"
-                 ItemsSource="{Binding SidePanelVM.ResourceGroups}" DisplayMemberPath="Name"
-                 SelectedItem="{Binding SidePanelVM.SelectedResourceGroup}">
+                 ItemsSource="{Binding ResourceGroups}" DisplayMemberPath="Name"
+                 SelectedItem="{Binding SelectedResourceGroup}">
 
             </ComboBox>
         </Grid>
 
-        <Grid Margin="5" Visibility="{Binding SidePanelVM.IsResourceGroupSelected, Converter={StaticResource BoolVisibilityConverter}}">
+        <Grid Margin="5" Visibility="{Binding IsResourceGroupSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="API RESOURCES" FontWeight="ExtraBold" />
             <ComboBox Grid.Row="1"  BorderThickness="3" FontWeight="Black"
-                 ItemsSource="{Binding SidePanelVM.Resources}" DisplayMemberPath="Name"
-                 SelectedItem="{Binding SidePanelVM.SelectedResource}">
+                 ItemsSource="{Binding Resources}" DisplayMemberPath="Name"
+                 SelectedItem="{Binding SelectedResource}">
 
             </ComboBox>
         </Grid>
 
-        <Grid Margin="5" Visibility="{Binding SidePanelVM.IsResourceSelected, Converter={StaticResource BoolVisibilityConverter}}">
+        <Grid Margin="5" Visibility="{Binding IsResourceSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30" />
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Label Grid.Row="0" Content="PRODUCTS" FontWeight="ExtraBold" />
             <ComboBox Grid.Row="1"  BorderThickness="3" FontWeight="Black"
-                 ItemsSource="{Binding SidePanelVM.Products}" DisplayMemberPath="Name"
-                 SelectedItem="{Binding SidePanelVM.SelectedProduct}">
-
+                 ItemsSource="{Binding Products}" DisplayMemberPath="Name"
+                 SelectedItem="{Binding SelectedProduct}">
             </ComboBox>
         </Grid>
-    </StackPanel>
-     
-        
-        
+        <StackPanel  Visibility="{Binding IsProductSelected, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Button Margin="5" Width="100" Content="Get User List" Command="{Binding GetUserListCommand}" />
+            <Button Margin="5" Width="100" Content="Get API List" Command="{Binding GetApiListCommand}" />
+        </StackPanel>
+    </StackPanel>   
 </UserControl>

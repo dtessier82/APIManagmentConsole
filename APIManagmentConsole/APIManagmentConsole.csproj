@@ -38,17 +38,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="GalaSoft.MvvmLight, Version=5.0.2.32240, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="GalaSoft.MvvmLight, Version=5.1.1.35049, Culture=neutral, PublicKeyToken=e7570ab207bcb616, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.dll</HintPath>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.0.2.32242, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="GalaSoft.MvvmLight.Extras, Version=5.1.1.35049, Culture=neutral, PublicKeyToken=669f0b5e8f868abf, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.Extras.dll</HintPath>
     </Reference>
-    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.0.2.32241, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="GalaSoft.MvvmLight.Platform, Version=5.1.1.35053, Culture=neutral, PublicKeyToken=5f873c45e98af8a1, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\GalaSoft.MvvmLight.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Hyak.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Hyak.Common.1.0.2\lib\net45\Hyak.Common.dll</HintPath>
@@ -120,9 +120,7 @@
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\MvvmLightLibs.5.0.2.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-      <Private>True</Private>
+      <HintPath>..\packages\MvvmLightLibs.5.1.1.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -145,14 +143,21 @@
     <Compile Include="Context\IApplicationContext.cs" />
     <Compile Include="Context\ISecurityContext.cs" />
     <Compile Include="Context\ApplicationSecurityContext.cs" />
+    <Compile Include="Converters\BooleanConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\ApiType.cs" />
+    <Compile Include="Models\ApiManagementObject.cs" />
+    <Compile Include="Models\Enum\SubscriptionState.cs" />
+    <Compile Include="Models\Enum\UserState.cs" />
     <Compile Include="Models\Extensions\ApiDefinitionExtensions.cs" />
+    <Compile Include="Models\Extensions\GroupExtensions.cs" />
     <Compile Include="Models\Extensions\ProductExtensions.cs" />
     <Compile Include="Models\Extensions\ResourceGroupExtensions.cs" />
     <Compile Include="Models\Extensions\SubscriptionExtensions.cs" />
+    <Compile Include="Models\Extensions\UserExtensions.cs" />
     <Compile Include="Models\Resource.cs" />
     <Compile Include="Models\ResourceGroup.cs" />
     <Compile Include="Model\ApplicationMenuItem.cs" />
@@ -163,7 +168,7 @@
     <Compile Include="Models\ApiManagementParameter.cs" />
     <Compile Include="Models\ApiManagementRepresentation.cs" />
     <Compile Include="Models\ApiManagementUser.cs" />
-    <Compile Include="Models\Enum\State.cs" />
+    <Compile Include="Models\Enum\ProductState.cs" />
     <Compile Include="Models\Extensions\PolicyExtensions.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Operation.cs" />
@@ -181,6 +186,7 @@
     <Compile Include="Services\IApiService.cs" />
     <Compile Include="Services\Implmentation\ApiOperationService.cs" />
     <Compile Include="Services\Implmentation\ApiService.cs" />
+    <Compile Include="Services\Implmentation\UserService.cs" />
     <Compile Include="Services\IProductService.cs" />
     <Compile Include="Services\ILoginService.cs" />
     <Compile Include="Services\Implmentation\ProductService.cs" />
@@ -189,14 +195,20 @@
     <Compile Include="Services\Implmentation\SubscriptionService.cs" />
     <Compile Include="Services\IResourceGroupService.cs" />
     <Compile Include="Services\ISubscriptionService.cs" />
+    <Compile Include="Services\IUserService.cs" />
     <Compile Include="UserControls\BindablePasswordBox.xaml.cs">
       <DependentUpon>BindablePasswordBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModel\APIJSONEditorViewModel.cs" />
+    <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\Extensions\ViewModelExtensions.cs" />
     <Compile Include="ViewModel\APIListViewModel.cs" />
+    <Compile Include="ViewModel\UserListViewModel.cs" />
     <Compile Include="Views\APIJsonEditView.xaml.cs">
       <DependentUpon>APIJsonEditView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UserList.xaml.cs">
+      <DependentUpon>UserList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
@@ -230,6 +242,10 @@
     <Page Include="Views\APIJsonEditView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UserList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Login.xaml">
       <SubType>Designer</SubType>
@@ -272,7 +288,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
